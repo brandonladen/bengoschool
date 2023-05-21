@@ -1,0 +1,13 @@
+{% extends 'management/base.html' %} {% block page_title %} {% if object %} Update {{
+object }} {% else %} Add new student {% endif %} {% endblock page_title %} {% block
+content %}
+
+<form action="" method="POST">
+  {% csrf_token %} {% include 'corecode/form_snippet.html' %} {% if object %}
+  <input type="submit" class="btn btn-primary" value="Update Record" />
+  {% else %}
+  <input type="submit" class="btn btn-primary" value="Add new student" />
+  {% endif %}
+</form>
+
+{% endblock content %}
