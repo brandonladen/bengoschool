@@ -1,4 +1,5 @@
-from .models import AcademicSession, AcademicTerm,SiteConfig
+from .models import *
+from authman.models import *
 from django.utils import timezone
 
 
@@ -9,7 +10,8 @@ class SiteWideConfigs:
     def __call__(self, request):
         current_session = AcademicSession.objects.get(current=True)
         current_term = AcademicTerm.objects.get(current=True)
-        configdict={"school_name":"Bengo School ERP","school_slogan":"Create . Innovate . Excel","school_addres":"Excel Building, Kisumu, 1235 St."}
+        default_course,created=Course.objects.get_or_create(name='All')
+        configdict={"school_name":"Bengo School ERP","school_slogan":"Create . Innovate . Excel","school_addres":"Excel Building, Kisumu, 1235 St.","grading_criteria":"points"}
 
         if current_session == None:
             current_session, created = AcademicSession.objects.get_or_create(

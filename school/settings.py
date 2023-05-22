@@ -50,12 +50,14 @@ INSTALLED_APPS = [
     'academics.apps.AcademicsConfig',
     'authman.apps.AuthConfig',
     'finance.apps.FinaceConfig',
+    'grading',
     'leave.apps.LeaveConfig',
     'management',
     'reports.apps.ReportConfig',
     'results.apps.ResultConfig',
     'students.apps.StudentConfig',
     'staff.apps.StaffConfig',
+    'timetable',
 
 ]
 

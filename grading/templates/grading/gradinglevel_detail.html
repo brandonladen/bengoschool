@@ -1,0 +1,57 @@
+{% extends 'management/base.html' %}
+{% load humanize %}
+
+{% block content-header %}
+<div class="card-header">
+  <div class="card-tools">
+    <a href="#" class="btn btn-tool text-danger"><i class="fas fa-print"><i></a>
+    <a href="{% url 'grading-update' object.id %}" class="btn btn-tool">
+      <i class="fas fa-edit"></i>
+    </a>
+    <a href="{% url 'grading-delete' object.id %}" class="btn btn-tool">
+      <i class="fas fa-times"></i>
+    </a>
+  </div>
+</div>
+{% endblock content-header %}
+
+
+
+{% block content %}
+
+<div class="row">
+  <div class="col-sm-4">
+    <h5>Grading Level: {{ object.name }} </h5>
+     <h5>Course: {{ object.course }} </h5>
+    <h6>Current: {{ object.current }} </h6>
+    <hr>
+  </div>
+  <div class="col-sm-8">
+    <table class="table table-sm table-bordered">
+      Grading Breakdown</br>
+      <thead class="thead-light">
+        <tr>
+          <th>S/N</th>
+          <th>Marks</th>
+          <th>Grade</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+        <tr>
+          <td>{{ forloop.counter }} </td>
+          <td>{{ item.mark_range }} </td>
+          <td>{{ item.grade }} </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr class="bg-fuchsia" col-span="2">
+          <td>Bengo Tech School LMS v1.0.0</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+<hr>
+{% endblock content %}

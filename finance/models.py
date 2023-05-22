@@ -60,6 +60,7 @@ class InvoiceItem(models.Model):
 class Receipt(models.Model):
     invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE)
     amount_paid = models.IntegerField()
+    payment_method=models.CharField(max_length=50,choices=(("bank","Bank Deposit"),("cash","Cash"),("mobile","Mobile Money")),default='Bank Deposit')
     date_paid = models.DateField(default=timezone.now)
     comment = models.CharField(max_length=200, blank=True)
 

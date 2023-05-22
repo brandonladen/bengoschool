@@ -2,8 +2,8 @@
 {{title}} {% endblock page_title %} {% block page_title-side %}{% endblock page_title-side %}
 {% block content %}
 <form method="POST">
-  {% csrf_token %} {{ formset.management_form}}
-
+  {% csrf_token %}
+  {{ formset.management_form}}
   <div class="mb-3">
     {% for form in formset %}
     <div class="form-group row">

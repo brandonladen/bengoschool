@@ -1,0 +1,70 @@
+{% extends 'management/base.html' %}
+{% load widget_tweaks %}
+{% block page_title %}
+{% if object %} Update Setting {{ object }}
+{% else %}
+Add Setting
+{% endif %}
+{% endblock page_title %}
+{% block content %}
+
+<form method="POST">
+  {% csrf_token %}
+
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="text-muted">GRADING SETTINS</div>
+      {% for field in form %}
+      <div class="form-group row">
+        <label class="col col-form-label" for="{{ field.auto_id }}">
+          {{ field.label }} {% for error in field.errors %}
+          <small id="{{ field.auto_id }}" class="text-danger"
+            >{{ error }}</small>
+          {% endfor %}
+        </label>
+        <div class="col">
+          {{ field | add_class:"form-control"}}
+          {% if field.help_text %}
+          <small>{{ field.help_text|safe }}</small>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="col-sm-6 callout callout-info">
+      {{ items.management_form }}
+      <div class="text-center">GRADING RULES</div>
+      <div class="row">
+        <div class="col"><strong>Total Marks Range</strong></div>
+        <div class="col"><strong>Total Points Range</strong></div>
+        <div class="col"><strong>Mean Grade</strong></div>
+      </div>
+      {% for item in items %}
+      <div class="form-group row items-group">
+        {{ item.id}}
+        <div class="col">{{ item.mark_range | add_class:"form-control"}}</div>
+        <div class="col">{{ item.points_range | add_class:"form-control"}}</div>
+        <div class="col">{{ item.grade | add_class:"form-control"}}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% if object %}
+  <input type="submit" class="btn btn-primary" value="Update Setting" />
+  {% else %}
+  <input type="submit" class="btn btn-primary" value="Add Setting" />
+  {% endif %}
+</form>
+<hr />
+{% endblock content %}
+{% block custom_js  %}
+<script>
+  $(".items-group").formset({
+    prefix: "{{ items.prefix }}",
+    deleteText:
+      "<div class='btn btn-danger btn-circle'><i class='fas fa-trash'></i></div>",
+    addText:
+      "<div class='btn btn-success btn-circle'><i class='fas fa-plus'></i></div>",
+  });
+</script>
+{% endblock custom_js  %}

@@ -3,7 +3,7 @@ from django.db import models
 from academics.models import *
 from students.models import Student
 from authman.models import *
-from .utils import score_grade
+from .utils import *
 
 
 # Create your models here.

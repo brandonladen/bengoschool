@@ -70,7 +70,7 @@ class StudentForm(CustomUserForm):
     class Meta(CustomUserForm.Meta):
         model = Student
         fields = CustomUserForm.Meta.fields + \
-            ['registration_number','date_of_admission','date_of_birth','parent_mobile_number','current_class','course', 'session']
+            ['registration_number','date_of_admission','date_of_birth','parent','current_class','course', 'session']
 
 
 class AdminForm(CustomUserForm):
@@ -90,6 +90,14 @@ class StaffForm(CustomUserForm):
         model = Staff
         fields = CustomUserForm.Meta.fields + \
             ['course']
+
+class ParentfForm(CustomUserForm):
+    def __init__(self, *args, **kwargs):
+        super(ParentfForm, self).__init__(*args, **kwargs)
+
+    class Meta(CustomUserForm.Meta):
+        model = Parent
+        fields = CustomUserForm.Meta.fields
 
 
 class CourseForm(FormSettings):

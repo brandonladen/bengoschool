@@ -29,7 +29,6 @@ class SiteConfigView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         formset = self.form_class(request.POST)
         if formset.is_valid():
-            print(formset)
             formset.save()
             messages.success(request, "Configurations successfully updated")
         context = {"formset": formset, "title": "Configuration"}

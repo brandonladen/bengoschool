@@ -166,8 +166,41 @@
 
                     </ul>
                 </li>
-
-
+                 <li class="nav-item has-treeview">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-file-archive"></i>
+                <p>
+                  Grading
+                  <i class="fas fa-angle-left right"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="{% url 'overallgrading-list' %}" class="nav-link">
+                    <i class="nav-icon fas fa-tools"></i>
+                    <p>
+                      Grade Settings
+                    </p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{% url 'grades-list' %}" class="nav-link">
+                    <i class="nav-icon fas fa-chart-line"></i>
+                    <p>
+                      Grades
+                    </p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{% url 'grading-list' %}" class="nav-link">
+                    <i class="nav-icon fas fa-file-alt"></i>
+                    <p>
+                      Grading Rules
+                    </p>
+                  </a>
+                </li>
+              </ul>
+            </li>
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-users"></i>

@@ -1,0 +1,46 @@
+{% extends 'management/base.html' %}
+{% load humanize %}
+{% block page_title %}Grading Systems{% endblock page_title %}
+{% block breadcrumb %}
+<a class="btn btn-primary" href="{% url 'grading-create' %}"><i class="fas fa-plus"></i> New Grading</a>
+{% endblock breadcrumb %}
+{% block content %}
+<div class="table-responsive">
+  <table id="gradingtable" class="table table-bordered table-hover overflow-auto">
+    <thead class="thead-light">
+      <tr>
+        <th>S/N</th>
+        <th>Grading Level</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for grading in object_list %}
+      <tr
+        class="clickable-row"
+        data-href="{% url 'grading-detail' grading.grading_level.id %}"
+      >
+        <td>{{ forloop.counter}}</td>
+        <td>{{ grading.grading_level.name}} -> {{ grading.grading_level.course}}</td>
+         <td>{{ grading.mark_range}}</td>
+          <td>{{ grading.grade.name}}</td>
+        <td>
+          <a
+            class="btn btn-primary btn-sm"
+            href="{% url 'grading-detail' grading.grading_level.id %}"
+            ><i class="fas fa-eye text-warning"></i></a
+          >
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock content %} {% block custom_js  %}
+<script>
+  $("#gradingtable").DataTable({
+    select: false,
+  });
+</script>
+
+{% endblock custom_js  %}

@@ -6,7 +6,7 @@ from django.views.generic import DetailView, ListView, View
 from students.models import *
 from .forms import CreateResults, EditResults
 from .models import Result
-
+from.utils import *
 
 @login_required
 def create_result(request):
@@ -106,7 +106,7 @@ class ResultListView(LoginRequiredMixin, View):
                 "test_total": test_total,
                 "exam_total": exam_total,
                 "total_total": test_total + exam_total,
-                "grade":None,
+                "mean_grade":mean_grade(test_total + exam_total)
             }
 
         context = {"results": bulk}

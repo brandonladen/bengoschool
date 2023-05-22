@@ -1,7 +1,6 @@
 <footer class="main-footer">
-    &copy; {% now "Y" %} - <strong>College Management System</strong>
-    In Python Django
-    <div class="float-right d-none d-sm-inline-block">
-       Ver.1.0
+   Copyright &copy; {% now "Y" %} - <strong>{{shool_name | default:"Bengo Tech Hub School ERP"}} </strong>
+    <div class="float-right d-none d-xl-inline-block ">
+       <span class="text-danger">{{version| default:"v1.0.0"}}</span>
     </div>
 </footer>

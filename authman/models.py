@@ -69,8 +69,7 @@ class Staff(models.Model):
     current_status = models.CharField(
         max_length=10, choices=STATUS, default="active")
     admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    course = models.ForeignKey(
-        "Course", on_delete=models.SET_NULL, default=1, blank=True, null=True)
+    course = models.ManyToManyField("Course",blank=True, null=True)
     date_of_birth = models.DateField(default=timezone.now)
     date_of_admission = models.DateField(default=timezone.now)
     mobile_num_regex = RegexValidator(
@@ -81,6 +80,26 @@ class Staff(models.Model):
     )
     address = models.TextField(blank=True)
     others = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.admin.email
+
+    def get_absolute_url(self):
+        return reverse("staff-detail", kwargs={"pk": self.pk})
+
+class Parent(models.Model):
+    STATUS = [("active", "Active"), ("inactive", "Inactive")]
+    current_status = models.CharField(
+        max_length=10, choices=STATUS, default="active")
+    admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    date_of_birth = models.DateField(default=timezone.now)
+    mobile_num_regex = RegexValidator(
+        regex=r"^(?:\+254|0)[17]\d{8}$", message="Entered mobile number isn't in a right format!"
+    )
+    mobile_number = models.CharField(
+        validators=[mobile_num_regex], max_length=13, blank=True
+    )
+    address = models.TextField(blank=True)
 
     def __str__(self):
         return self.admin.email
@@ -125,13 +144,7 @@ class Student(models.Model):
     session = models.ForeignKey(
         AcademicSession, on_delete=models.SET_NULL, null=True)
     date_of_admission = models.DateField(default=timezone.now)
-
-    mobile_num_regex = RegexValidator(
-        regex=r"^(?:\+254|0)[17]\d{8}$", message="Entered mobile number isn't in a right format!"
-    )
-    parent_mobile_number = models.CharField(
-        validators=[mobile_num_regex], max_length=13, blank=True
-    )
+    parent = models.ForeignKey(Parent,on_delete=models.CASCADE,related_name='students',blank=True,null=True)
     others = models.TextField(blank=True)
     passport = models.ImageField(blank=True, upload_to="students/passports/")
 
