@@ -4,67 +4,76 @@
   .rotate {
     writing-mode: vertical-lr;
     transform: rotate(-180deg);
-    white-space: nowrap;
+    white-space: wrap;
     text-overflow: ellipsis;
     overflow: hidden;
   }
 </style>
 {% endblock custom_css %}
 {% block fullcard %}
-<div class="card">
-  <div class="card-header">
-    <div class="text-uppercase text-center font-weight-bold">
-      <div class="d-inline-block align-items-center mt-1">
-        <img src="{{school_logo.url}}" alt="Logo" width="100">
-      </div>
-      <div class="d-inline-block align-items-center mt-2">
-        <h5>
-        {{school_name}}<br/>
-        {{school_addres}}<br/>
-        {{school_email}}</h5>
-      </div>
+  <div class="row">
+    <div class="d-inline-block p-2  float-right">
+      <a href="#" class="btn btn-default">Export PDF</a>
     </div>
-  </div>
-  <div class="card-body">
-    <table class="table table-bordered table-sm">
-      <thead class="thead-light">
-        {% for key,result in results.items %}
-        <tr>
-          <th class="rotate text-uppercase">adm</th>
-          <th  class="rotate text-uppercase">class</th>
-          <th  class="rotate text-uppercase">stream</th>
-          {% for subject in result.allsubjects %}
-          <th  class="rotate text-uppercase">{{subject.name}}</th>
-          {% endfor %}
-          <th  class="rotate text-uppercase">T. Marks</th>
-          <th  class="rotate text-uppercase">M. Marks</th>
-          <th  class="rotate text-uppercase text-wrap size-12">Marks<br/>Deviation from<br/>previous exams</th>
-          <th  class="rotate text-uppercase">Grade</th>
-          <th  class="rotate text-uppercase">Stream POS</th>
-          <th  class="rotate text-uppercase">Class POS</th>
-        </tr>
-        {% endfor %}
-      </thead>
-      <tbody>
-        {% for key,result in results.items %}
-        <tr>
-          <td>{{ result.student }}</td>
-          <td>{{ result.student.current_class }}</td>
-           <td>{{ result.student.current_section }}</td>
-          {% for subject in result.subjects %}
-          <td>{{ subject.test_score|add:subject.exam_score }}</td>
-          {% endfor %}
-          <td>{{ result.total_total }}</td>
-          <td>{{ result.mean_total }}</td>
-          <td>{{result.deviation}}</td>
-          <td>{{result.mean_grade}}</td>
-           <td>1</td>
-          <td>1</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-
-    </table>
+      <div class="d-inline-block p-2  float-right">
+      <a href="#" class="btn btn-default">Export XLS</a>
   </div>
 </div>
+  <div class="card">
+    <div class="card-header">
+      <div class="text-uppercase text-center font-weight-bold">
+        <div class="d-inline-block align-items-center mt-1">
+          <img src="{{school_logo.url}}" alt="Logo" width="100">
+        </div>
+        <div class="d-inline-block align-items-center mt-2">
+          <h5>
+          {{school_name}}<br/>
+          {{school_addres}}<br/>
+          {{school_email}}</h5>
+        </div>
+      </div>
+      <h4 class="text-uppercase">Ranking Transcript     {{request.current_session}},{{request.current_term}}</h4>
+    </div>
+    <div class="card-body">
+      <table class="table table-bordered table-sm">
+        <thead class="thead-light">
+          {% for key,result in results.items %}
+          <tr>
+            <th class="rotate text-uppercase">adm</th>
+            <th  class="rotate text-uppercase">class</th>
+            <th  class="rotate text-uppercase">stream</th>
+            {% for subject in result.allsubjects %}
+            <th  class="rotate text-uppercase">{{subject.name}}</th>
+            {% endfor %}
+            <th  class="rotate text-uppercase">T. Marks</th>
+            <th  class="rotate text-uppercase">M. Marks</th>
+            <th  class="rotate text-uppercase text-wrap size-12">Marks<br/>Deviation from<br/>previous exams</th>
+            <th  class="rotate text-uppercase">Grade</th>
+            <th  class="rotate text-uppercase">Stream POS</th>
+            <th  class="rotate text-uppercase">Class POS</th>
+          </tr>
+          {% endfor %}
+        </thead>
+        <tbody>
+          {% for key,result in results.items %}
+          <tr>
+            <td>{{ result.student }}</td>
+            <td>{{ result.student.current_class }}</td>
+            <td>{{ result.student.current_section }}</td>
+            {% for subject in result.subjects %}
+            <td>{{ subject.test_score|add:subject.exam_score }}</td>
+            {% endfor %}
+            <td>{{ result.total_total }}</td>
+            <td>{{ result.mean_total }}</td>
+            <td>{{result.deviation}}</td>
+            <td>{{result.mean_grade}}</td>
+            <td>1</td>
+            <td>1</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+
+      </table>
+    </div>
+  </div>
 {% endblock fullcard %}
