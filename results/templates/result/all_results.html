@@ -10,6 +10,7 @@
   }
 </style>
 {% endblock custom_css %}
+{% load static %}
 {% block fullcard %}
   <div class="row">
     <div class="d-inline-block p-2  float-right">
@@ -19,20 +20,24 @@
       <a href="#" class="btn btn-default">Export XLS</a>
   </div>
 </div>
-  <div class="card">
+  <div class="card overflow-auto">
     <div class="card-header">
       <div class="text-uppercase text-center font-weight-bold">
         <div class="d-inline-block align-items-center mt-1">
-          <img src="{{school_logo.url}}" alt="Logo" width="100">
+          {% if school_logo.url %}
+          <img src="{{school_logo.url}}" alt="Logo" width="150">
+          {% else %}
+          <img src="{% static 'school_logo/default.png' %}" alt="Logo" width="150">
+          {% endif %}
         </div>
-        <div class="d-inline-block align-items-center mt-2">
+        <div class="align-items-center mt-2">
           <h5>
           {{school_name}}<br/>
           {{school_addres}}<br/>
           {{school_email}}</h5>
         </div>
       </div>
-      <h4 class="text-uppercase">Ranking Transcript     {{request.current_session}},{{request.current_term}}</h4>
+      <h4 class="text-uppercase">Ranking Transcript&nbsp;&nbsp;{{request.current_session}},{{request.current_term}}</h4>
     </div>
     <div class="card-body">
       <table class="table table-bordered table-sm">
