@@ -111,3 +111,6 @@ class ResultListView(LoginRequiredMixin, View):
 
         context = {"results": bulk}
         return render(request, "result/all_results.html", context)
+
+def load_student_card(request):
+    return render(request,'result/report-card.html')

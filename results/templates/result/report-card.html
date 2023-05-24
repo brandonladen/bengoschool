@@ -1,0 +1,39 @@
+{% extends 'management/base.html' %}
+{% block content %}
+  <div class="container">
+    <div class="card mt-4">
+      <div class="card-header">
+        <h5 class="card-title">Kenyan High School</h5>
+        <p class="card-text">School Address</p>
+      </div>
+      <div class="card-body">
+        <h6 class="card-subtitle mb-2 text-muted">Student Name: John Doe</h6>
+        <p class="card-text">Class: Form 4</p>
+        <p class="card-text">Year: 2023</p>
+        <!-- Add more relevant information here -->
+      </div>
+      <table class="table table-bordered">
+        <thead class="thead-light">
+          <tr>
+            <th>Subject</th>
+            <th>Grade</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Mathematics</td>
+            <td>A</td>
+          </tr>
+          <tr>
+            <td>English</td>
+            <td>B+</td>
+          </tr>
+          <!-- Add more subject rows here -->
+        </tbody>
+      </table>
+      <div class="card-footer">
+        <p class="text-muted">School Email: info@kenyanhighschool.com</p>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

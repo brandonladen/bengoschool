@@ -12,6 +12,18 @@ class SiteConfig(models.Model):
     def __str__(self):
         return self.key
 
+class SchoolSetup(models.Model):
+    logo=models.ImageField(upload_to='school_logo/',default='school_logo/default.png')
+
+    def __str__(self):
+        return self.logo.url if self.logo else 'school_logo/default.png'
+
+    class Meta:
+        verbose_name_plural='School Setup'
+
+
+
+
 
 class AcademicSession(models.Model):
     """Academic Session"""

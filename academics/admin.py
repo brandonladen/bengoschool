@@ -1,4 +1,4 @@
 from django.contrib import admin
 from .models import *
 # Register your models here.
-admin.site.register([AcademicSession,AcademicTerm,StudentClass,ClassSection,SiteConfig])
+admin.site.register([AcademicSession,AcademicTerm,StudentClass,ClassSection,SiteConfig,SchoolSetup])

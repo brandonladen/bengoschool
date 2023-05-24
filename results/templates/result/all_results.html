@@ -2,7 +2,18 @@
 {% block fullcard %}
 {% for key, result in results.items %}
 <div class="card">
-  <div class="card-header">{{result.student}}</div>
+  <div class="card-header">
+    <div class="text-center">
+      <div class="d-inline-block align-content-between align-items-center">
+        <img src="{{school_logo.url}}" alt="Logo" width="100">
+      </div>
+      <div class="d-inline-block">
+        <h5>{{school_name}}</h5>
+        <p>{{school_addres}}</p>
+        <p>{{school_email}}</p>
+      </div>
+    </div>
+  </div>
   <div class="card-body">
     <table class="table table-bordered table-sm">
       <thead class="thead-light">
