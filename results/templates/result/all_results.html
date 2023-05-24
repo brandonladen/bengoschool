@@ -1,56 +1,70 @@
 {% extends 'management/base.html' %}
+{% block custom_css %}
+<style>
+  .rotate {
+    writing-mode: vertical-lr;
+    transform: rotate(-180deg);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+</style>
+{% endblock custom_css %}
 {% block fullcard %}
-{% for key, result in results.items %}
 <div class="card">
   <div class="card-header">
-    <div class="text-center">
-      <div class="d-inline-block align-content-between align-items-center">
+    <div class="text-uppercase text-center font-weight-bold">
+      <div class="d-inline-block align-items-center mt-1">
         <img src="{{school_logo.url}}" alt="Logo" width="100">
       </div>
-      <div class="d-inline-block">
-        <h5>{{school_name}}</h5>
-        <p>{{school_addres}}</p>
-        <p>{{school_email}}</p>
+      <div class="d-inline-block align-items-center mt-2">
+        <h5>
+        {{school_name}}<br/>
+        {{school_addres}}<br/>
+        {{school_email}}</h5>
       </div>
     </div>
   </div>
   <div class="card-body">
     <table class="table table-bordered table-sm">
       <thead class="thead-light">
+        {% for key,result in results.items %}
         <tr>
-          <th>#</th>
-          <th>Subject</th>
-          <th>Test Score</th>
-          <th>Exam Score</th>
-          <th>Total Score</th>
-          <th>Grade</th>
-           <th>GPA</th>
+          <th class="rotate text-uppercase">adm</th>
+          <th  class="rotate text-uppercase">class</th>
+          <th  class="rotate text-uppercase">stream</th>
+          {% for subject in result.allsubjects %}
+          <th  class="rotate text-uppercase">{{subject.name}}</th>
+          {% endfor %}
+          <th  class="rotate text-uppercase">T. Marks</th>
+          <th  class="rotate text-uppercase">M. Marks</th>
+          <th  class="rotate text-uppercase text-wrap size-12">Marks<br/>Deviation from<br/>previous exams</th>
+          <th  class="rotate text-uppercase">Grade</th>
+          <th  class="rotate text-uppercase">Stream POS</th>
+          <th  class="rotate text-uppercase">Class POS</th>
         </tr>
+        {% endfor %}
       </thead>
       <tbody>
-        {% for subject in result.subjects %}
+        {% for key,result in results.items %}
         <tr>
-          <td>{{ forloop.counter }}</td>
-          <td>{{ subject.subject }}</td>
-          <td>{{ subject.test_score }}</td>
-          <td>{{ subject.exam_score }}</td>
-          <td>{{ subject.total_score }}</td>
-          <td>{{ subject.grade }}</td>
+          <td>{{ result.student }}</td>
+          <td>{{ result.student.current_class }}</td>
+           <td>{{ result.student.current_section }}</td>
+          {% for subject in result.subjects %}
+          <td>{{ subject.test_score|add:subject.exam_score }}</td>
+          {% endfor %}
+          <td>{{ result.total_total }}</td>
+          <td>{{ result.mean_total }}</td>
+          <td>{{result.deviation}}</td>
+          <td>{{result.mean_grade}}</td>
+           <td>1</td>
+          <td>1</td>
         </tr>
         {% endfor %}
       </tbody>
-      <tfoot>
-        <tr>
-          <td colspan="2"></td>
-          <td>{{ result.test_total }}</td>
-          <td>{{ result.exam_total }}</td>
-          <td>{{ result.total_total }}</td>
-          <td>{{ result.grade }}</td>
-          <td colspan="2">{{result.mean_grade}}</td>
-        </tr>
-      </tfoot>
+
     </table>
   </div>
 </div>
-{% endfor %}
 {% endblock fullcard %}

@@ -60,17 +60,15 @@ class CustomUserForm(FormSettings):
 class StudentForm(CustomUserForm):
     def __init__(self, *args, **kwargs):
         super(StudentForm, self).__init__(*args, **kwargs)
-
-        for field in CustomUserForm.Meta.fields:
-            self.fields["date_of_birth"].widget = widgets.DateInput(attrs={"type": "date","class":"form-control"})
-            self.fields["date_of_admission"].widget = widgets.DateInput(
-                attrs={"type": "date","class":"form-control"}
-            )
+        self.fields["date_of_birth"].widget = widgets.DateInput(attrs={"type": "date","class":"form-control"})
+        self.fields["date_of_admission"].widget = widgets.DateInput(
+            attrs={"type": "date","class":"form-control"}
+        )
 
     class Meta(CustomUserForm.Meta):
         model = Student
         fields = CustomUserForm.Meta.fields + \
-            ['registration_number','date_of_admission','date_of_birth','parent','current_class','course', 'session']
+            ['registration_number','date_of_admission','date_of_birth','kcpe_entry_marks','parent','current_class','current_section','course', 'session']
 
 
 class AdminForm(CustomUserForm):

@@ -11,11 +11,11 @@ class SiteWideConfigs:
         current_session = AcademicSession.objects.get(current=True)
         current_term = AcademicTerm.objects.get(current=True)
         default_course,created=Course.objects.get_or_create(name='All')
-        configdict={"school_name":"Bengo School ERP","school_slogan":"Create . Innovate . Excel","school_addres":"Excel Building, Kisumu, 1235 St.","grading_criteria":"points"}
+        configdict={"school_name":"Bengo School ERP","school_slogan":"Create . Innovate . Excel","school_addres":"Excel Building, Kisumu, 1235 St.","school_email":"info@bengohub.co.ke","grading_criteria":"points"}
 
         if current_session == None:
             current_session, created = AcademicSession.objects.get_or_create(
-                name=str(timezone.now().year-1)+"/"+str(timezone.now().year), current=True)
+                name=str(timezone.now().year-1)+"/"+str(timezone.now().year), from_date=timezone.now().date(),to_date=timezone.now().date(),current=True)
             current_term, created = AcademicTerm.objects.get_or_create(
                 name='Term I', current=True)
         configs=SiteConfig.objects.count()

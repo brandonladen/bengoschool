@@ -27,8 +27,9 @@ class SchoolSetup(models.Model):
 
 class AcademicSession(models.Model):
     """Academic Session"""
-
     name = models.CharField(max_length=200, unique=True)
+    from_date=models.DateField(null=True,blank=True)
+    to_date=models.DateField(null=True,blank=True)
     current = models.BooleanField(default=True)
 
     class Meta:
@@ -51,7 +52,6 @@ class AcademicTerm(models.Model):
         return self.name
 
 
-
 class StudentClass(models.Model):
     name = models.CharField(max_length=200, unique=True)
     sections = models.ManyToManyField("ClassSection")
@@ -66,7 +66,7 @@ class StudentClass(models.Model):
 
 
 class ClassSection(models.Model):
-    name = models.CharField(max_length=200, unique=True)
+    name = models.CharField(max_length=200,default="Custom")
 
     class Meta:
         verbose_name = "Class Section"

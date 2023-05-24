@@ -136,8 +136,12 @@ class Student(models.Model):
     admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     registration_number = models.CharField(max_length=200, unique=True)
     date_of_birth = models.DateField(default=timezone.now)
+    kcpe_entry_marks=models.PositiveIntegerField(default=0)
     current_class = models.ForeignKey(
         StudentClass, on_delete=models.SET_NULL, blank=True, null=True
+    )
+    current_section = models.ForeignKey(
+        ClassSection, on_delete=models.SET_NULL, blank=True, null=True
     )
     course = models.ForeignKey(
         Course, on_delete=models.SET_NULL, default=1, blank=True, null=True)

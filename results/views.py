@@ -87,9 +87,28 @@ class ResultListView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         results = Result.objects.filter(
             session=request.current_session, term=request.current_term
-        )
+        ).order_by('subject__name')
+        ##prev session results
+        prevresults = Result.objects.filter(
+            session__to_date__lte=request.current_session.from_date
+        ).exclude(term=request.current_term).order_by('session__to_date').last()
+        print(prevresults)
         bulk = {}
+        allsubjects=Subject.objects.values("name").order_by("name")
+        prevscores=[]
+        if prevresults !=None:
+            for result in results:
+                test_total = 0
+                exam_total = 0
+                counter=0
+                for subject in results:
+                    if subject.student == result.student:
+                        counter+=int(1)
+                        test_total += subject.test_score
+                        exam_total += subject.exam_score
+            prevscores.append({'student':result.student.id,'score':(test_total + exam_total)/counter})
 
+        ##current score
         for result in results:
             test_total = 0
             exam_total = 0
@@ -103,10 +122,13 @@ class ResultListView(LoginRequiredMixin, View):
             bulk[result.student.id] = {
                 "student": result.student,
                 "subjects": subjects,
+                "allsubjects":allsubjects,
                 "test_total": test_total,
                 "exam_total": exam_total,
                 "total_total": test_total + exam_total,
-                "mean_grade":mean_grade(test_total + exam_total)
+                "mean_total": (test_total + exam_total)/len(subjects),
+                "mean_grade":mean_grade(test_total + exam_total),
+                "deviation": (test_total + exam_total)/len(subjects)-prevscores['score'] if len(prevscores) >0 and prevscores['student']==result.student.id else 0
             }
 
         context = {"results": bulk}

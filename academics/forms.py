@@ -1,4 +1,6 @@
 from django import forms
+from django.forms.widgets import DateInput, TextInput
+from django.forms import widgets
 from django.forms import ModelForm, modelformset_factory
 
 from .models import *
@@ -15,10 +17,15 @@ SiteConfigForm = modelformset_factory(
 
 class AcademicSessionForm(ModelForm):
     prefix = "Academic Session"
+    def __init__(self, *args, **kwargs):
+        super(AcademicSessionForm, self).__init__(*args, **kwargs)
+        self.fields["from_date"].widget = widgets.DateInput(attrs={"type": "date","class":"form-control"})
+        self.fields["to_date"].widget = widgets.DateInput(attrs={"type": "date","class":"form-control"})
+
 
     class Meta:
         model = AcademicSession
-        fields = ["name", "current"]
+        fields = ["name","from_date","to_date","current"]
 
 
 class AcademicTermForm(ModelForm):
