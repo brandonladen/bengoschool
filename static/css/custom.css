@@ -1,0 +1,7 @@
+.rotate {
+    writing-mode: vertical-lr;
+    transform: rotate(-180deg);
+    white-space: wrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}

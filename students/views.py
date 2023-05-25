@@ -111,7 +111,7 @@ class DownloadCSVViewdownloadcsv(LoginRequiredMixin, View):
 
 def student_home(request):
     student = get_object_or_404(Student, admin=request.user)
-    total_subject = Subject.objects.filter(course=student.course).count()
+    total_subject = student.subject.count()
     total_attendance = AttendanceReport.objects.filter(student=student).count()
     total_present = AttendanceReport.objects.filter(
         student=student, status=True).count()
@@ -123,7 +123,7 @@ def student_home(request):
     subject_name = []
     data_present = []
     data_absent = []
-    subjects = Subject.objects.filter(course=student.course)
+    subjects = student.subject.all()
     for subject in subjects:
         attendance = Attendance.objects.filter(subject=subject)
         present_count = AttendanceReport.objects.filter(

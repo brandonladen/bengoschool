@@ -35,7 +35,7 @@ class CustomUserManager(UserManager):
 
 
 class CustomUser(AbstractUser):
-    USER_TYPE = ((1, "HOD"), (2, "Staff"), (3, "Student"))
+    USER_TYPE = ((1, "HOD"), (2, "Staff"), (3, "Student"),(4,"Parent"))
     GENDER = [("M", "Male"), ("F", "Female"), ("O", "Other")]
     username = models.CharField(max_length=150, unique=True,blank=True,null=True)
     email = models.EmailField(unique=True)
@@ -69,7 +69,7 @@ class Staff(models.Model):
     current_status = models.CharField(
         max_length=10, choices=STATUS, default="active")
     admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    course = models.ManyToManyField("Course",blank=True, null=True)
+    subject = models.ManyToManyField("Subject",blank=True, null=True,related_name='teachers',default='All')
     date_of_birth = models.DateField(default=timezone.now)
     date_of_admission = models.DateField(default=timezone.now)
     mobile_num_regex = RegexValidator(
@@ -120,7 +120,6 @@ class Course(models.Model):
 
 class Subject(models.Model):
     name = models.CharField(max_length=120)
-    staff = models.ForeignKey(Staff,on_delete=models.CASCADE,)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -143,8 +142,7 @@ class Student(models.Model):
     current_section = models.ForeignKey(
         ClassSection, on_delete=models.SET_NULL, blank=True, null=True
     )
-    course = models.ForeignKey(
-        Course, on_delete=models.SET_NULL, default=1, blank=True, null=True)
+    subject = models.ManyToManyField(Subject, default="All", blank=True, null=True,related_name='students')
     session = models.ForeignKey(
         AcademicSession, on_delete=models.SET_NULL, null=True)
     date_of_admission = models.DateField(default=timezone.now)
@@ -164,7 +162,7 @@ class Student(models.Model):
 
 
 @receiver(post_save, sender=CustomUser)
-def create_user_profile(sender, instance, created, **kwargs):
+def create_user_profile(sender, instance, created, **kwargs):  
     if created:
         if instance.user_type == 1:
             Admin.objects.create(admin=instance)
@@ -181,4 +179,4 @@ def save_user_profile(sender, instance, **kwargs):
     if instance.user_type == 2:
         instance.staff.save()
     if instance.user_type == 3:
-        instance.student.save()
+        instance.student.save() 

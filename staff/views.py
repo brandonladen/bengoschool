@@ -15,9 +15,9 @@ from leave.models import *
 
 def staff_home(request):
     staff = get_object_or_404(Staff, admin=request.user)
-    total_students = Student.objects.filter(course=staff.course).count()
+    total_students = Student.objects.filter(subject__in=staff.subject.all()).distinct().count()
     total_leave = LeaveReportStaff.objects.filter(staff=staff).count()
-    subjects = Subject.objects.filter(staff=staff)
+    subjects = staff.subject.all()
     total_subject = subjects.count()
     attendance_list = Attendance.objects.filter(subject__in=subjects)
     total_attendance = attendance_list.count()
@@ -28,7 +28,7 @@ def staff_home(request):
         subject_list.append(subject.name)
         attendance_list.append(attendance_count)
     context = {
-        'page_title': 'Staff Panel - ' + str(staff.admin.last_name) + ' (' + str(staff.course) + ')',
+        'page_title': 'Staff Panel - ' + str(staff.admin.last_name) + ' (' + str([s.name for s in staff.subject.all()]) + ')',
         'total_students': total_students,
         'total_attendance': total_attendance,
         'total_leave': total_leave,
@@ -41,7 +41,7 @@ def staff_home(request):
 
 def staff_take_attendance(request):
     staff = get_object_or_404(Staff, admin=request.user)
-    subjects = Subject.objects.filter(staff_id=staff)
+    subjects = staff.subject.all()
     classes = StudentClass.objects.all()
     context = {
         'subjects': subjects,
@@ -61,7 +61,7 @@ def get_students(request):
         subject = get_object_or_404(Subject, id=subject_id)
         cr_class=StudentClass.objects.get(id=class_id)
         students = Student.objects.filter(
-            course_id=subject.course.id, session=session,current_class=cr_class)
+            subject=subject, session=session,current_class=cr_class)
         student_data = []
         for student in students:
             data = {
@@ -101,7 +101,7 @@ def save_attendance(request):
 
 def staff_update_attendance(request):
     staff = get_object_or_404(Staff, admin=request.user)
-    subjects = Subject.objects.filter(staff_id=staff)
+    subjects = staff.subject.all()
     sessions = AcademicSession.objects.all()
     context = {
         'subjects': subjects,

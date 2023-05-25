@@ -11,8 +11,9 @@ from.utils import *
 @login_required
 def create_result(request):
     students = Student.objects.all()
+    if not request.user.is_superuser:
+        students=Student.objects.filter(subject__teachers__id=request.user.staff.id).distinct()
     if request.method == "POST":
-
         # after visiting the second page
         if "finish" in request.POST:
             form = CreateResults(request.POST)
@@ -92,6 +93,11 @@ class ResultListView(LoginRequiredMixin, View):
         prevresults = Result.objects.filter(
             session__to_date__lte=request.current_session.from_date
         ).exclude(term=request.current_term).order_by('session__to_date').last()
+        ##get ranking criteria
+        config=SiteConfig.objects.filter(key='grading_criteria').first()
+        ranking_type=config.value
+        print(ranking_type)
+        print(calculate_positions('points',1))
         print(prevresults)
         bulk = {}
         allsubjects=Subject.objects.values("name").order_by("name")
@@ -118,7 +124,7 @@ class ResultListView(LoginRequiredMixin, View):
                     subjects.append(subject)
                     test_total += subject.test_score
                     exam_total += subject.exam_score
-
+            positions=calculate_positions(ranking_type,result.student.id)
             bulk[result.student.id] = {
                 "student": result.student,
                 "subjects": subjects,
@@ -128,7 +134,10 @@ class ResultListView(LoginRequiredMixin, View):
                 "total_total": test_total + exam_total,
                 "mean_total": (test_total + exam_total)/len(subjects),
                 "mean_grade":mean_grade(test_total + exam_total),
-                "deviation": (test_total + exam_total)/len(subjects)-prevscores['score'] if len(prevscores) >0 and prevscores['student']==result.student.id else 0
+                "deviation": (test_total + exam_total)/len(subjects)-prevscores['score'] if len(prevscores) >0 and prevscores['student']==result.student.id else 0,
+                "stream_pos":[pos for sec,pos in positions['section_positions'].items()][0],
+                "overall_rank":positions['overall_position']
+
             }
 
         context = {"results": bulk}

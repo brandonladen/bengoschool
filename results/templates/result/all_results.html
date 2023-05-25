@@ -1,14 +1,10 @@
 {% extends 'management/base.html' %}
+{% load static %}
 {% block custom_css %}
-<style>
-  .rotate {
-    writing-mode: vertical-lr;
-    transform: rotate(-180deg);
-    white-space: wrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-  }
-</style>
+<link
+      rel="stylesheet"
+      href="{% static 'css/custom.css' %}"
+    />
 {% endblock custom_css %}
 {% load static %}
 {% block fullcard %}
@@ -72,8 +68,8 @@
             <td>{{ result.mean_total }}</td>
             <td>{{result.deviation}}</td>
             <td>{{result.mean_grade}}</td>
-            <td>1</td>
-            <td>1</td>
+            <td>{{result.stream_pos}}</td>
+            <td>{{result.overall_rank}}</td>
           </tr>
           {% endfor %}
         </tbody>

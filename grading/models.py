@@ -24,6 +24,8 @@ class GradingLevel(models.Model):
         ordering=['name','course']
         verbose_name_plural='Grading Levels'
         managed=True
+    def get_absolute_url(self):
+        return reverse("grading-detail", kwargs={"pk": self.pk})
 
 
 
@@ -41,8 +43,9 @@ class GradingRules(models.Model):
         verbose_name_plural='Grading Rules'
         managed=True
 
-    # def __str__(self):
-    #     return f'{self.mark_range} - {self.grade}'
+    def get_absolute_url(self):
+        return reverse("grading-detail", kwargs={"pk": self.pk})
+
 class OverallGrading(models.Model):
     name=models.CharField(max_length=100,choices=(("highschool","Highschool"),("college","College"),("university","University")),default='highschool')
     current=models.BooleanField(default=True,blank=True,null=True)
