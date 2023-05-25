@@ -22,21 +22,6 @@ class Result(models.Model):
     class Meta:
         ordering = ["subject"]
 
-
-@receiver(post_save, sender=Result)
-def update_points_earned(sender, instance, created, **kwargs):
-    if created:
-        # Calculate points based on marks and grading rules
-        test_marks = instance.test_score
-        exam_marks = instance.exam_score
-        total_score=test_marks+exam_marks
-        subject = instance.subject
-
-        # Update the points_earned field
-        instance.points_earned = points_earned(total_score,subject)
-        instance.save()
-
-
     def __str__(self):
         return f"{self.student} {self.session} {self.term} {self.subject}"
 

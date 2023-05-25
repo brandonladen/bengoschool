@@ -31,15 +31,23 @@ def points_earned(subject_score,subject):
     return total_points_earned
 
 
-def mean_grade(marks):
+def mean_grade(student, grading_type='points'):
     overall_grading = OverallGrading.objects.filter(current=True).first()
+    grade=None
     if overall_grading is None or overall_grading.gradingitems.count() == 0:
         return None
     for rule in overall_grading.gradingitems.all():
-        range_start, range_end = map(int, rule.mark_range.split('-'))
-        if range_start <= marks <= range_end:
-            return rule.grade
-    return None
+        if grading_type=='points':
+            marks =  sum([points_earned(result.test_score + result.exam_score, result.subject) for result in student.result_set.all() if result.exam_score > 1])
+            range_start, range_end = map(int, rule.points_range.split('-'))
+            if range_start <= marks <= range_end:
+                grade=rule.grade
+        else:
+            marks = sum([(result.test_score + result.exam_score) for result in student.result_set.all() if result.exam_score > 1])
+            range_start, range_end = map(int, rule.mark_range.split('-'))
+            if range_start <= marks <= range_end:
+                 grade=rule.grade
+    return grade
 
 
 def calculate_positions(grading_type='points', student_id=None):
@@ -50,7 +58,7 @@ def calculate_positions(grading_type='points', student_id=None):
     student_scores = []
     for student in students:
         if grading_type == 'points':
-            total_score = sum([result.test_score + result.exam_score for result in student.result_set.all()])
+            total_score = sum([points_earned(result.test_score + result.exam_score,result.subject) for result in student.result_set.all() if result.exam_score>1])
         elif grading_type == 'marks':
             total_score = sum([result.test_score + result.exam_score for result in student.result_set.all()])
             # Convert the total marks to points using OverallGradingItem model
@@ -65,7 +73,6 @@ def calculate_positions(grading_type='points', student_id=None):
                         break
         else:
             return "Invalid grading type!"
-
         student_scores.append((student, total_score))
 
     # Sort the student scores in descending order

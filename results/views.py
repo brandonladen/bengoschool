@@ -10,7 +10,7 @@ from.utils import *
 
 @login_required
 def create_result(request):
-    students = Student.objects.all()
+    students = Student.objects.distinct()
     if not request.user.is_superuser:
         students=Student.objects.filter(subject__teachers__id=request.user.staff.id).distinct()
     if request.method == "POST":
@@ -132,8 +132,8 @@ class ResultListView(LoginRequiredMixin, View):
                 "test_total": test_total,
                 "exam_total": exam_total,
                 "total_total": test_total + exam_total,
-                "mean_total": (test_total + exam_total)/len(subjects),
-                "mean_grade":mean_grade(test_total + exam_total),
+                "mean_total": f"{(test_total + exam_total)/len(subjects):.2f}",
+                "mean_grade": mean_grade(result.student, 'points'),
                 "deviation": (test_total + exam_total)/len(subjects)-prevscores['score'] if len(prevscores) >0 and prevscores['student']==result.student.id else 0,
                 "stream_pos":[pos for sec,pos in positions['section_positions'].items()][0],
                 "overall_rank":positions['overall_position']
