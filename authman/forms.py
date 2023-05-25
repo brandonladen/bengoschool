@@ -58,6 +58,7 @@ class CustomUserForm(FormSettings):
 
 
 class StudentForm(CustomUserForm):
+    #course = forms.MultipleChoiceField(choices=Course.objects.all(), widget=forms.CheckboxSelectMultiple)
     def __init__(self, *args, **kwargs):
         super(StudentForm, self).__init__(*args, **kwargs)
         self.fields["date_of_birth"].widget = widgets.DateInput(attrs={"type": "date","class":"form-control"})
@@ -68,7 +69,7 @@ class StudentForm(CustomUserForm):
     class Meta(CustomUserForm.Meta):
         model = Student
         fields = CustomUserForm.Meta.fields + \
-            ['registration_number','date_of_admission','date_of_birth','kcpe_entry_marks','parent','current_class','current_section','course', 'session']
+            ['registration_number','date_of_admission','date_of_birth','kcpe_entry_marks','parent','current_class','current_section','subject', 'session']
 
 
 class AdminForm(CustomUserForm):
@@ -87,7 +88,7 @@ class StaffForm(CustomUserForm):
     class Meta(CustomUserForm.Meta):
         model = Staff
         fields = CustomUserForm.Meta.fields + \
-            ['course']
+            ['subject']
 
 class ParentfForm(CustomUserForm):
     def __init__(self, *args, **kwargs):
@@ -113,7 +114,7 @@ class SubjectForm(FormSettings):
 
     class Meta:
         model = Subject
-        fields = ['name', 'staff', 'course']
+        fields = ['name', 'course']
 
 class StudentEditForm(CustomUserForm):
     def __init__(self, *args, **kwargs):

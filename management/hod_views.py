@@ -17,11 +17,11 @@ from .models import *
 
 
 def admin_home(request):
-    total_staff = Staff.objects.all().count()
-    total_students = Student.objects.all().count()
+    total_staff = Staff.objects.count()
+    total_students = Student.objects.count()
     subjects = Subject.objects.all()
     total_subject = subjects.count()
-    total_course = Course.objects.all().count()
+    total_course = Course.objects.count()
     attendance_list = Attendance.objects.filter(subject__in=subjects)
     total_attendance = attendance_list.count()
     attendance_list = []
@@ -39,7 +39,7 @@ def admin_home(request):
 
     for course in course_all:
         subjects = Subject.objects.filter(course_id=course.id).count()
-        students = Student.objects.filter(course_id=course.id).count()
+        students = Student.objects.filter(subject__course=course).distinct().count()
         course_name_list.append(course.name)
         subject_count_list.append(subjects)
         student_count_list_in_course.append(students)
@@ -49,7 +49,7 @@ def admin_home(request):
     student_count_list_in_subject = []
     for subject in subject_all:
         course = Course.objects.get(id=subject.course.id)
-        student_count = Student.objects.filter(course_id=course.id).count()
+        student_count = Student.objects.filter(subject=subject.id).count()
         subject_list.append(subject.name)
         student_count_list_in_subject.append(student_count)
 
@@ -101,7 +101,7 @@ def add_staff(request):
             email = form.cleaned_data.get('email')
             gender = form.cleaned_data.get('gender')
             password = form.cleaned_data.get('password')
-            course = form.cleaned_data.get('course')
+            subjects = form.cleaned_data.get('subject')
             passport = request.FILES.get('profile_pic')
             fs = FileSystemStorage()
             filename = fs.save(passport.name, passport)
@@ -111,7 +111,8 @@ def add_staff(request):
                     email=email, password=password, user_type=2, first_name=first_name, last_name=last_name, profile_pic=passport_url)
                 user.gender = gender
                 user.address = address
-                user.staff.course = course
+                for sub in subjects:
+                    user.staff.subject.add(sub)
                 user.save()
                 messages.success(request, "Successfully Added")
                 return redirect(reverse('add_staff'))
@@ -135,7 +136,8 @@ def add_student(request):
             email = student_form.cleaned_data.get('email')
             gender = student_form.cleaned_data.get('gender')
             password = student_form.cleaned_data.get('password')
-            course = student_form.cleaned_data.get('course')
+            subjects = student_form.cleaned_data.get('subject')
+            parent=student_form.cleaned_data.get('parent')
             session = student_form.cleaned_data.get('session')
             passport = request.FILES['profile_pic']
             fs = FileSystemStorage()
@@ -147,7 +149,9 @@ def add_student(request):
                 user.gender = gender
                 user.address = address
                 user.student.session = session
-                user.student.course = course
+                for sub in subjects:
+                    user.student.subject.add(sub)
+                user.student.parent=parent
                 user.save()
                 messages.success(request, "Successfully Added")
                 return redirect(reverse('add_student'))
@@ -261,7 +265,7 @@ def edit_staff(request, staff_id):
             email = form.cleaned_data.get('email')
             gender = form.cleaned_data.get('gender')
             password = form.cleaned_data.get('password') or None
-            course = form.cleaned_data.get('course')
+            subjects = form.cleaned_data.get('subject')
             passport = request.FILES.get('profile_pic') or None
             try:
                 user = CustomUser.objects.get(id=staff.admin.id)
@@ -278,7 +282,8 @@ def edit_staff(request, staff_id):
                 user.last_name = last_name
                 user.gender = gender
                 user.address = address
-                staff.course = course
+                for sub in subjects:
+                    staff.subject.add(sub)
                 user.save()
                 staff.save()
                 messages.success(request, "Successfully Updated")
@@ -310,7 +315,8 @@ def edit_student(request, student_id):
             email = form.cleaned_data.get('email')
             gender = form.cleaned_data.get('gender')
             password = form.cleaned_data.get('password') or None
-            course = form.cleaned_data.get('course')
+            subjects = form.cleaned_data.get('subject')
+            parent=form.cleaned_data.get('parent')
             session = form.cleaned_data.get('session')
             passport = request.FILES.get('profile_pic') or None
             try:
@@ -329,7 +335,9 @@ def edit_student(request, student_id):
                 student.session = session
                 user.gender = gender
                 user.address = address
-                student.course = course
+                student.parent = parent
+                for sub in subjects:
+                    student.subject.add(sub)
                 user.save()
                 student.save()
                 messages.success(request, "Successfully Updated")
@@ -395,7 +403,7 @@ def edit_subject(request, subject_id):
 
 
 def add_session(request):
-    form = SessionForm(request.POST or None)
+    form = AcademicSessionForm(request.POST or None)
     context = {'form': form, 'page_title': 'Add Session'}
     if request.method == 'POST':
         if form.is_valid():

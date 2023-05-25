@@ -21,7 +21,7 @@
                                     <th>Full Name</th>
                                     <th>Email</th>
                                     <th>Gender</th>
-                                    <th>Course</th>
+                                    <th>Subjects</th>
                                     <th>Avatar</th>
                                     <th>Actions</th>
                                 </tr>
@@ -33,7 +33,9 @@
                                     <td>{{staff.last_name}}, {{staff.first_name}}</td>
                                     <td>{{staff.email}}</td>
                                     <td>{{staff.gender}}</td>
-                                    <td>{{staff.staff.course.name}}</td>
+                                    {% for sub in staff.staff.subject.all %}
+                                    <td class="d-inline-block">{{sub.name}}</td>
+                                    {% endfor %}
                                     <td>
                                         {% if staff.profile_pic == ""  %}
                                         No Image
