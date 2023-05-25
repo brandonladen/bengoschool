@@ -1,0 +1,15 @@
+.passport-image {
+     position: relative;
+     top: 0;
+     left: 0;
+     width: 35mm;
+     height: 45mm;
+    }
+
+    .passport-image-right {
+         position: relative;
+         top: 0;
+         right: 0;
+         width: 35mm;
+         height: 45mm
+     }
