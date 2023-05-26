@@ -1,29 +1,58 @@
 {% extends 'management/base.html' %}
-{% load static %}
 {% block content %}
   <div class="container">
-    <div class="card">
+    <div class="card mt-4">
       <div class="card-header">
         <div style="display: flex; align-items: center; justify-content: space-between;">
-          {% if school_logo.url %}
-          <img src="{{school_logo.url}}" alt="Your image" class="passport-image" style="border: 2px solid black; float: left;">
-          {% else %}
-           <img src="{% static 'school_logo/default.png' %}" alt="Your image" class="passport-image" style="border: 2px solid black; float: left;">
-          {% endif %}
+          <img src="{{school_logo.url}}" alt="Your image" class="passport-image" style="border: 5px solid black; float: left;">
           <div class="card-text" style="margin: 10px;">
             <h1>{{school_name}}</h1>
-            <h2 >{{school_addres}}</h2>
+            <h2>{{school_address}}</h2>
           </div>
           <img src="{{school_logo.url}}" alt="Your image" class="passport-image-right" style="border: 5px solid black; float: right;">
         </div>
-        <h2 style="text-align: center;">TERM TWO ACADEMIC REPORT FORM-YEAR 2023</h2>
+        <h2 style="text-align: center;">TERM ___ ACADEMIC REPORT FORM-YEAR ___</h2>
       </div>
       </div>
       <div class="card-body">
-        <h6 class="card-subtitle mb-2 text-muted text-uppercase font-italic">Student Name: John Doe</h6>
+        <!--<h6 class="card-subtitle mb-2 text-muted">Student Name: John Doe</h6>
         <p class="card-text">Class: Form 4</p>
         <p class="card-text">Year: 2023</p>
         <!-- Add more relevant information here -->
+
+          <div class="row">
+            <span class="label">NAME:</span>
+            <span class="value"> </span>
+            <span class="label">ADM.NO:</span>
+            <span class="value">  </span>
+            <span class="label">FORM:</span>
+            <span class="value"> </span>
+            <span class="label">HSE:</span>
+            <span class="value"> </span>
+          </div>
+          <div class="row">
+            <span class="label">FORM POS:</span>
+            <span class="value"> </span>
+            <span class="label">OUT OF:</span>
+            <span class="value">  </span>
+            <span class="label">CLASS POS:</span>
+            <span class="value">  </span>
+            <span class="label">OUT OF:</span>
+            <span class="value"> </span>
+            <span class="label">MEAN GRADE:</span>
+            <span class="value">  </span>
+          </div>
+          <div class="row">
+            <span class="label">T.MARKS:</span>
+            <span class="value">  </span>
+            <span class="label">M.MARK:</span>
+            <span class="value">  </span>
+            <span class="label">T.POINTS:</span>
+            <span class="value">  </span>
+            <span class="label">M.POINTS:</span>
+            <span class="value">  </span>
+          </div>
+
       </div>
       <table class="table table-bordered">
         <thead class="thead-light">
@@ -152,6 +181,42 @@
           </tr>
           <tr>
             <td>Bussiness Studies</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Agriculture</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>
@@ -297,13 +362,25 @@
         </table>
       </table>
       </table>
-
+      <!-- Added this -->
       <div class="chart">
-        <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+        <canvas id="barChart" style="min-height: 200px; height: 200px; max-height: 200px; max-width: 50%;"></canvas>
       </div>
+      <br/> <br/> <br/>
+      <form>
+        <p> <em>Head Teacher's Remarks - "Name of the head teacher"</em></p>
+        <textarea name = "comment" rows="5" cols="150" placeholder="Head Teacher's remarks will appear here"></textarea>
+      </form>
+      <div style="text-align: center; font-weight: bold;">
+        <p>Fees arreas Kshs: "Amnt will display here" Next term fees Kshs: "Amnt will display here" Total Kshs: "Amnt will display here" Sign:_______</p>
+        <p>School closed on: "date"  Next Term Begins on: "date"</p>
+        <p>Parent's Sign:____________________Date_________________________</p>
+      </div>
+  
 
+      <!-- Untill here -->
       <div class="card-footer">
-        <p class="text-muted">{{school_email}}</p>
+        <p class="text-muted">School Email: info@kenyanhighschool.com</p>
       </div>
     </div>
   </div>
@@ -314,8 +391,8 @@
 var ctx = document.getElementById('barChart').getContext('2d');
 
 // Define the data and labels
-var data = [7, 8, 6, 10, 12]; // Example data
-var labels = ['F1T1','F1T2','F1T3','F2T1','F2T2','F2T3','F3T1','F3T2','F3T3','F4T1','F4T2','F4T3']; // Example labels
+var data = [7, 8, 6, 10, 12]; 
+var labels = ['F1T1','F1T2','F1T3','F2T1','F2T2','F2T3','F3T1','F3T2','F3T3','F4T1','F4T2','F4T3']; 
 
 var barChart = new Chart(ctx, {
   type: 'bar',
@@ -324,9 +401,10 @@ var barChart = new Chart(ctx, {
     datasets: [{
       label: 'Mean Points',
       data: data,
-      backgroundColor: 'rgba(54, 162, 235, 0.5)',
-      borderColor: 'rgba(54, 162, 235, 1)',
-      borderWidth: 1
+      backgroundColor: 'black', 
+      borderColor: 'black',
+      borderWidth: 1,
+      barPercentage: 0.5
     }]
   },
   options: {
@@ -339,18 +417,20 @@ var barChart = new Chart(ctx, {
         title: {
           display: true,
           text: 'Mean Points',
-          position: 'left' // Added this line
+          position: 'left'
         }
       },
       x: {
         title: {
           display: true,
           text: 'Form and Term',
-          position: 'bottom' // Added this line
+          position: 'bottom'
         }
       }
     }
   }
 });
 </script>
+
+
 {% endblock custom_js %}
