@@ -1,13 +1,18 @@
 {% extends 'management/base.html' %}
+{% load static %}
 {% block content %}
   <div class="container">
     <div class="card mt-4">
       <div class="card-header">
         <div style="display: flex; align-items: center; justify-content: space-between;">
-          <img src="{{school_logo.url}}" alt="Your image" class="passport-image" style="border: 5px solid black; float: left;">
+          {% if school_logo.url %}
+          <img src="{{school_logo.url}}" alt="Your image" class="passport-image" style="border: 2px solid black; float: left;">
+          {% else %}
+            <img src="{% static 'school_logo/default.png' %}" alt="Your image" class="passport-image" style="border: 2px solid black; float: left;">
+            {% endif %}
           <div class="card-text" style="margin: 10px;">
             <h1>{{school_name}}</h1>
-            <h2>{{school_address}}</h2>
+            <h2>{{school_addres}}</h2>
           </div>
           <img src="{{school_logo.url}}" alt="Your image" class="passport-image-right" style="border: 5px solid black; float: right;">
         </div>
@@ -376,7 +381,7 @@
         <p>School closed on: "date"  Next Term Begins on: "date"</p>
         <p>Parent's Sign:____________________Date_________________________</p>
       </div>
-  
+
 
       <!-- Untill here -->
       <div class="card-footer">
@@ -391,8 +396,8 @@
 var ctx = document.getElementById('barChart').getContext('2d');
 
 // Define the data and labels
-var data = [7, 8, 6, 10, 12]; 
-var labels = ['F1T1','F1T2','F1T3','F2T1','F2T2','F2T3','F3T1','F3T2','F3T3','F4T1','F4T2','F4T3']; 
+var data = [7, 8, 6, 10, 12];
+var labels = ['F1T1','F1T2','F1T3','F2T1','F2T2','F2T3','F3T1','F3T2','F3T3','F4T1','F4T2','F4T3'];
 
 var barChart = new Chart(ctx, {
   type: 'bar',
@@ -401,7 +406,7 @@ var barChart = new Chart(ctx, {
     datasets: [{
       label: 'Mean Points',
       data: data,
-      backgroundColor: 'black', 
+      backgroundColor: 'black',
       borderColor: 'black',
       borderWidth: 1,
       barPercentage: 0.5
