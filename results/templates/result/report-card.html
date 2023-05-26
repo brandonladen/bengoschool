@@ -292,9 +292,62 @@
         </table>
       </table>
       </table>
+      <!-- Added this -->
+      <div class="chart">
+        <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+      </div>
+      <!-- Untill here -->
       <div class="card-footer">
         <p class="text-muted">School Email: info@kenyanhighschool.com</p>
       </div>
     </div>
   </div>
 {% endblock content %}
+
+{% block custom_js %}
+<script>
+var ctx = document.getElementById('barChart').getContext('2d');
+
+// Define the data and labels
+var data = [7, 8, 6, 10, 12]; // Example data
+var labels = ['F1T1','F1T2','F1T3','F2T1','F2T2','F2T3','F3T1','F3T2','F3T3','F4T1','F4T2','F4T3']; // Example labels
+
+var barChart = new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: labels,
+    datasets: [{
+      label: 'Mean Points',
+      data: data,
+      backgroundColor: 'rgba(54, 162, 235, 0.5)',
+      borderColor: 'rgba(54, 162, 235, 1)',
+      borderWidth: 1
+    }]
+  },
+  options: {
+    scales: {
+      y: {
+        beginAtZero: true,
+        max: 12,
+        min: 0,
+        stepSize: 2,
+        title: {
+          display: true,
+          text: 'Mean Points',
+          position: 'left' // Added this line
+        }
+      },
+      x: {
+        title: {
+          display: true,
+          text: 'Form and Term',
+          position: 'bottom' // Added this line
+        }
+      }
+    }
+  }
+});
+</script>
+
+
+{% endblock custom_js %}
