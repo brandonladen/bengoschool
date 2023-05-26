@@ -1,7 +1,9 @@
 from grading.models import *
 
+
 def score_grade(marks, course):
-    grading_level = GradingLevel.objects.filter(current=True, course=course).first()
+    grading_level = GradingLevel.objects.filter(
+        current=True, course=course).first()
 
     if not grading_level or not grading_level.grading_rules.exists():
         return None
@@ -13,9 +15,11 @@ def score_grade(marks, course):
 
     return None
 
-def points_earned(subject_score,subject):
+
+def points_earned(subject_score, subject):
     # Retrieve the grading rules for the subject's course
-    grading_rules = GradingRules.objects.filter(grading_level__course__subject=subject)
+    grading_rules = GradingRules.objects.filter(
+        grading_level__course__subject=subject)
 
     total_points_earned = 0
 
@@ -33,20 +37,22 @@ def points_earned(subject_score,subject):
 
 def mean_grade(student, grading_type='points'):
     overall_grading = OverallGrading.objects.filter(current=True).first()
-    grade=None
+    grade = None
     if overall_grading is None or overall_grading.gradingitems.count() == 0:
         return None
     for rule in overall_grading.gradingitems.all():
-        if grading_type=='points':
-            marks =  sum([points_earned(result.test_score + result.exam_score, result.subject) for result in student.result_set.all() if result.exam_score > 1])
+        if grading_type == 'points':
+            marks = sum([points_earned(result.test_score + result.exam_score, result.subject)
+                        for result in student.result_set.all() if result.exam_score > 1])
             range_start, range_end = map(int, rule.points_range.split('-'))
             if range_start <= marks <= range_end:
-                grade=rule.grade
+                grade = rule.grade
         else:
-            marks = sum([(result.test_score + result.exam_score) for result in student.result_set.all() if result.exam_score > 1])
+            marks = sum([(result.test_score + result.exam_score)
+                        for result in student.result_set.all() if result.exam_score > 1])
             range_start, range_end = map(int, rule.mark_range.split('-'))
             if range_start <= marks <= range_end:
-                 grade=rule.grade
+                grade = rule.grade
     return grade
 
 
@@ -58,18 +64,22 @@ def calculate_positions(grading_type='points', student_id=None):
     student_scores = []
     for student in students:
         if grading_type == 'points':
-            total_score = sum([points_earned(result.test_score + result.exam_score,result.subject) for result in student.result_set.all() if result.exam_score>1])
+            total_score = sum([points_earned(result.test_score + result.exam_score, result.subject)
+                              for result in student.result_set.all() if result.exam_score > 1])
         elif grading_type == 'marks':
-            total_score = sum([result.test_score + result.exam_score for result in student.result_set.all()])
+            total_score = sum(
+                [result.test_score + result.exam_score for result in student.result_set.all()])
             # Convert the total marks to points using OverallGradingItem model
-            overall_grading = OverallGrading.objects.filter(current=True).first()
+            overall_grading = OverallGrading.objects.filter(
+                current=True).first()
             if overall_grading:
                 grading_items = overall_grading.gradingitems.all()
                 for grading_item in grading_items:
                     mark_range = grading_item.mark_range.split('-')
                     points_range = grading_item.points_range.split('-')
                     if int(mark_range[0]) <= total_score <= int(mark_range[1]):
-                        total_score = int(points_range[0]) + ((total_score - int(mark_range[0])) * ((int(points_range[1]) - int(points_range[0])) / (int(mark_range[1]) - int(mark_range[0]))))
+                        total_score = int(points_range[0]) + ((total_score - int(mark_range[0])) * (
+                            (int(points_range[1]) - int(points_range[0])) / (int(mark_range[1]) - int(mark_range[0]))))
                         break
         else:
             return "Invalid grading type!"

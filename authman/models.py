@@ -179,4 +179,4 @@ def save_user_profile(sender, instance, **kwargs):
     if instance.user_type == 2:
         instance.staff.save()
     if instance.user_type == 3:
-        instance.student.save() 
+        instance.student.save()   

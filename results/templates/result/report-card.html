@@ -1,17 +1,22 @@
 {% extends 'management/base.html' %}
+{% load static %}
 {% block content %}
   <div class="container">
-    <div class="card mt-4">
+    <div class="card">
       <div class="card-header">
         <div style="display: flex; align-items: center; justify-content: space-between;">
-          <img src="{{school_logo.url}}" alt="Your image" class="passport-image" style="border: 5px solid black; float: left;">
+          {% if school_logo.url %}
+          <img src="{{school_logo.url}}" alt="Your image" class="passport-image" style="border: 2px solid black; float: left;">
+          {% else %}
+           <img src="{% static 'school_logo/default.png' %}" alt="Your image" class="passport-image" style="border: 2px solid black; float: left;">
+          {% endif %}
           <div class="card-text" style="margin: 10px;">
-            <h1>A.I.C.CHEBISAAS BOYS HIGHSCHOOL</h1>
-            <h2 >P.O.Box 3778, ELDORET&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tel:</h2>
+            <h1>{{school_name}}</h1>
+            <h2 >{{school_addres}}</h2>
           </div>
           <img src="{{school_logo.url}}" alt="Your image" class="passport-image-right" style="border: 5px solid black; float: right;">
         </div>
-        <h2 style="text-align: center;">TERM TWO ACADEMIC REPORT FORM-YEAR 2014</h2>
+        <h2 style="text-align: center;">TERM TWO ACADEMIC REPORT FORM-YEAR 2023</h2>
       </div>
       </div>
       <div class="card-body">
@@ -292,9 +297,60 @@
         </table>
       </table>
       </table>
+
+      <div class="chart">
+        <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+      </div>
+
       <div class="card-footer">
-        <p class="text-muted">School Email: info@kenyanhighschool.com</p>
+        <p class="text-muted">{{school_email}}</p>
       </div>
     </div>
   </div>
 {% endblock content %}
+
+{% block custom_js %}
+<script>
+var ctx = document.getElementById('barChart').getContext('2d');
+
+// Define the data and labels
+var data = [7, 8, 6, 10, 12]; // Example data
+var labels = ['F1T1','F1T2','F1T3','F2T1','F2T2','F2T3','F3T1','F3T2','F3T3','F4T1','F4T2','F4T3']; // Example labels
+
+var barChart = new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: labels,
+    datasets: [{
+      label: 'Mean Points',
+      data: data,
+      backgroundColor: 'rgba(54, 162, 235, 0.5)',
+      borderColor: 'rgba(54, 162, 235, 1)',
+      borderWidth: 1
+    }]
+  },
+  options: {
+    scales: {
+      y: {
+        beginAtZero: true,
+        max: 12,
+        min: 0,
+        stepSize: 2,
+        title: {
+          display: true,
+          text: 'Mean Points',
+          position: 'left' // Added this line
+        }
+      },
+      x: {
+        title: {
+          display: true,
+          text: 'Form and Term',
+          position: 'bottom' // Added this line
+        }
+      }
+    }
+  }
+});
+</script>
+{% endblock custom_js %}
