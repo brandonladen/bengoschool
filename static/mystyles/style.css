@@ -13,3 +13,7 @@
          width: 35mm;
          height: 45mm
      }
+.card-body .row span.label {
+        margin-right: 100px; 
+        font-weight: bold;
+      }
