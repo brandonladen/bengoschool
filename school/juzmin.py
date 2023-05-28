@@ -8,7 +8,7 @@ JAZZMIN_SETTINGS = {
     "site_header": "School Administration",
 
     # Title on the brand (19 chars max) (defaults to current_admin_site.site_header if absent or None)
-    "site_brand": "SchoolAdmin",
+    "site_brand": "Super Admin",
 
     # Logo to use for your site, must be present in static files, used for brand on top left
     "site_logo": "/school_logo/logo.png",
