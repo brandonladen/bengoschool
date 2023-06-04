@@ -1,8 +1,4 @@
 env
 *.pyc
-<<<<<<< HEAD
-__pycache__
-=======
 __pychache__
 *.sqlite3
->>>>>>> master

@@ -82,6 +82,19 @@
                                 </p>
                             </a>
                         </li>
+
+                        <li class="nav-item">
+                            {% url 'timetable_home' as timetable_home %}
+                            <a href="{{timetable_home}}"
+                                class="nav-link  {% if timetable_home == request.path %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                  Manage Timetable
+
+                                </p>
+                            </a>
+                        </li>
+
                         <li class="nav-item has-treeview">
                            <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-check-double"></i>
@@ -522,6 +535,17 @@
                                 </ul>
                             </li>
                             <li class="nav-item">
+                                {% url 'timetable_home' as timetable_home %}
+                                <a href="{{timetable_home}}"
+                                    class="nav-link {% if timetable_home == request.path %} active {% endif %}">
+                                    <i class="nav-icon fas fa-calendar-alt"></i>
+                                    <p>
+                                        Manage Timetable
+
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 {% url 'staff_take_attendance' as staff_take_attendance %}
                                 <a href="{{staff_take_attendance}}"
                                     class="nav-link {% if staff_take_attendance == request.path %} active {% endif %}">
@@ -617,7 +641,17 @@
                                                 </p>
                                             </a>
                                         </li>
-
+                                        <li class="nav-item">
+                                            {% url 'home' as home %}
+                                            <a href="{{home}}"
+                                                class="nav-link {% if home == request.path %} active {% endif %}">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                <p>
+                                                    Manage Timetable
+                
+                                                </p>
+                                            </a>
+                                        </li>
                                         <li class="nav-item">
                                             {% url 'student_view_profile' as student_view_profile %}
                                             <a href="{{student_view_profile}}"
@@ -648,6 +682,9 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
+
+                    
+
 
                         <li class="nav-item">
                             {% url 'manage_course' as manage_course %}

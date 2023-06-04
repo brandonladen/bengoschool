@@ -68,6 +68,7 @@ class Staff(models.Model):
     STATUS = [("active", "Active"), ("inactive", "Inactive")]
     current_status = models.CharField(
         max_length=10, choices=STATUS, default="active")
+    role_number=models.CharField(max_length=10,unique=True,help_text='staff unique identifier')
     admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     subject = models.ManyToManyField("Subject",blank=True, null=True,related_name='teachers',default='All')
     date_of_birth = models.DateField(default=timezone.now)

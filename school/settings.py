@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 import dj_database_url
-import os
+import os  
 from pathlib import Path
 from .juzmin import JAZZMIN_SETTINGS
 

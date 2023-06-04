@@ -293,8 +293,8 @@ def edit_staff(request, staff_id):
         else:
             messages.error(request, "Please fil form properly")
     else:
-        user = CustomUser.objects.get(id=staff_id)
-        staff = Staff.objects.get(id=user.id)
+        staff = Staff.objects.get(id=staff_id)
+        user = staff.admin
         return render(request, "hod_template/edit_staff_template.html", context)
 
 

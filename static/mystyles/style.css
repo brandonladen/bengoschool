@@ -17,3 +17,8 @@
         margin-right: 100px; 
         font-weight: bold;
       }
+
+ .rotated-text {
+     writing-mode: vertical-lr;  /* Rotates the text from bottom to top */
+     text-orientation: mixed;    /* Ensures correct orientation across browsers */
+     }

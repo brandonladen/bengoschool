@@ -1,0 +1,49 @@
+{% extends 'management/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<table id="example2" class="table table-bordered table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <td>#</td>
+            <td>Staff</td>
+            <td>Subjects</td>
+            <td>Timetable</td>
+        </tr>
+    </thead>
+    <tbody>
+    {% if request.user.user_type == '1' %}
+    {% for staff in allStaff %}
+    <tr>
+        <td rowspan="{{ staff.subject.count }}">{{ forloop.counter }}</td>
+        <td rowspan="{{ staff.subject.count }}">{{ staff.admin.last_name }}, {{ staff.admin.first_name }}</td>
+        {% for sub in staff.subject.all %}
+        {% if forloop.first %}
+        <td><a href="{% url 'sub_action' subject=sub.name staff_id=staff.id selected_class=selected_class selected_section=selected_section %}">{{ sub.name }}</a></td>
+        <td rowspan="{{ staff.subject.count }}"><a href="#">View Personal Timetable</a></td>
+    </tr>
+        {% else %}
+    <tr>
+        <td><a href="{% url 'sub_action' subject=sub.name staff_id=staff.id selected_class=selected_class selected_section=selected_section %}">{{ sub.name }}</a></td>
+    </tr>
+        {% endif %}
+        {% endfor %}        
+    {% endfor %}
+    {% else %}
+    <tr>
+        <td>#</td>
+        <td>{{ allStaff.admin.last_name }}, {{ allStaff.admin.first_name }}</td>
+        <td>
+            {% for sub in allStaff.subject.all %}
+            <p class="d-inline-block">{{ sub.name }},</p>
+            {% endfor %}        
+        </td>
+        <td><a href="#">View Timetable</a></td>
+        </tr>
+    </tr>
+    {% endif %}
+        </tbody>
+</table>
+
+{% endblock content %}

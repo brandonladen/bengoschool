@@ -12,6 +12,7 @@ class SiteWideConfigs:
         current_session = AcademicSession.objects.filter(current=True).first()
         current_term = AcademicTerm.objects.filter(current=True).first()
         default_course,created=Course.objects.get_or_create(name='All')
+        default_stream,created=ClassSection.objects.get_or_create(name='Custom')
         GradingRules.objects.filter(mark_range='0-0').delete()
         OveralGradingItem.objects.filter(points_range='0-0').delete()
         configdict={"school_name":"Bengo School ERP","school_slogan":"Create . Innovate . Excel","school_addres":"Excel Building, Kisumu, 1235 St.","school_email":"info@bengohub.co.ke","grading_criteria":"points"}

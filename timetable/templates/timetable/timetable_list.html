@@ -1,0 +1,23 @@
+{% extends 'management/base.html' %} {% load widget_tweaks %} {% block page_title %}
+Classes {% endblock page_title %} {% block breadcrumb %}
+{% endblock breadcrumb %} {% block content %}
+<div class="row">
+  <div class="col-sm-12">
+    <table class="table table-bordered">
+      <tbody>
+        {% for cl in classes %}
+        <tr>
+            <td class="bg-dark text-white">
+              <a href="#" class="text-primary">{{cl.class_name}}</a>
+              {% for st in cl.streams %}
+              <tr class="bg-light"><td><a href="{% url 'r_timetable' cl.class_id st.id %}">{{st.name}}</a></td></tr>
+            {% endfor %}
+            </td>
+          </tr>
+          {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock content %}

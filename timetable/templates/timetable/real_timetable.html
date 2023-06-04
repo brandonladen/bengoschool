@@ -1,0 +1,165 @@
+{% extends 'management/base.html' %}
+{% load static %}
+{% block custom_css %}
+<link rel="{% static 'mystyles/styles.css' %}" type="stylesheet">
+<link rel="stylesheet" href="{% static 'css/custom.css' %}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.7.0/css/bootstrap.min.css">
+{% endblock custom_css %}
+{% block content %}
+<div class="card-body">
+    <h6 style="text-align: center;">{{school_name}},{{school_addres}}</h6>
+</div>
+  <div class="container">
+    {% if request.user.user_type == '1' %}
+    {% if selected_section.id %}
+    <a href="{% url 'timetable_staff_list' classes.id selected_section.id %}">
+    <button class="btn btn-primary" style="float: right;">Edit Timetable</button>
+    </a>
+    {% else %}
+    <a href="{% url 'timetable_staff_list' classes.id selected_section %}">
+      <button class="btn btn-primary" style="float: right;">Edit Timetable</button>
+      </a>
+    {% endif %}
+    {% elif request.user.user_type == '2' %}
+    <a href="{% url 'timetable_staff_list' %}">
+      <button class="btn btn-primary" style="float: right;">View Personal Timetable</button>
+      </a>
+    {% endif %}
+    {% if classes or selected_section %}
+    <h6  style="display: inline;"><strong>{{ classes }} {{ selected_section }}</strong>,<em>Class Timetable&nbsp;&nbsp;{{request.current_session}},{{request.current_term}}</em></h6>
+    {% endif %}
+    <div class="card mt-4">      
+      <table class="table table-bordered">
+        <thead class="thead-light">
+          <tr>
+            <th></th>
+            <th class="rotate text-uppercase">ASSEMBLY</th>
+            <th>1 <br/> 8.00 - 8.40 </th>
+            <th>2 <br/> 8.40 - 9.20</th>
+            <th>3 <br/> 9.20 - 10.00</th>
+            <th class="rotate text-uppercase">TEA BREAK</th>
+            <th>4 <br/> 10.20 - 11.00</th>
+            <th>5 <br/> 11.00 - 11.40</th>
+            <th class="rotate text-uppercase">SHORT BREAK</th>
+            <th>6 <br/> 11.50 - 12.30</th>
+            <th>7 <br/> 12.30 - 1.10</th>
+            <th class="rotate text-uppercase">LUNCH</th>
+           <!-- <th class="rotate text-uppercase">SPEED TEST</th> -->
+            <th>8 <br/> 1.50 - 2.30</th>
+            <th>9 <br/> 2.30 - 3.10</th>
+            <th>10 <br/> 3.10 - 3.50</th>
+            <th>11 <br/> 3.50 - 4.30</th>
+            <th class="rotate text-uppercase">GAMES</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Mo</td>
+            <td rowspan="5"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td rowspan="5" class="rotated-text"></td>
+            <td></td>
+            <td></td>
+            <td rowspan="5" class="rotated-text"></td>
+            <td></td>
+            <td></td>
+            <td rowspan="5" class="rotated-text"></td>
+            <!--<td rowspan="5" class="rotated-text"></td> -->
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td rowspan="5" class="rotated-text"></td>
+        </tr>
+        <tr>
+            <td>Tu</td>
+            <!--Col span-->
+            <td></td>
+            <td></td>
+            <td></td>
+            <!--Col span-->
+            <td></td>
+            <td></td>
+            <!--Col span-->
+            <td></td>
+            <td></td>
+            <!--Col span-->
+            <!--Col span-->
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <!--Col span-->
+        </tr>
+        <tr>
+            <td>We</td>
+            <!--Col span-->
+            <td></td>
+            <td></td>
+            <td></td>
+            <!--Col span-->
+            <td></td>
+            <td></td>
+            <!--Col span-->
+            <td></td>
+            <td></td>
+            <!--Col span-->
+            <!--Col span-->
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <!--Col span-->
+        </tr>
+        <tr>
+            <td>Th</td>
+            <!--Col span-->
+            <td></td>
+            <td></td>
+            <td></td>
+            <!--Col span-->
+            <td></td>
+            <td></td>
+            <!--Col span-->
+            <td></td>
+            <td></td>
+            <!--Col span-->
+            <!--Col span-->
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <!--Col span-->
+        </tr>
+        <tr>
+            <td>Fr</td>
+            <!--Col span-->
+            <td></td>
+            <td></td>
+            <td></td>
+            <!--Col span-->
+            <td></td>
+            <td></td>
+            <!--Col span-->
+            <td></td>
+            <td></td>
+            <!--Col span-->
+            <!--Col span-->
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <!--Col span-->
+        </tr>
+        </tbody>
+        </table>
+      </table>
+      </table>
+      <div class="card-footer">
+        <p class="text-muted">School Email: info@kenyanhighschool.com</p>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

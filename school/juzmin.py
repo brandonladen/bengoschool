@@ -104,6 +104,7 @@ JAZZMIN_SETTINGS = {
         "academics.studentclass": "fas fa-calendar-alt",
         "academics.siteconfig": "fas fa-cog",
         "academics.schoolsetup": "fas fa-tools",
+        "timetable.CreatTable": "fas fa-calendar",
     },
     # Icons that are used when one is not manually specified
     "default_icon_parents": "fas fa-chevron-circle-right",

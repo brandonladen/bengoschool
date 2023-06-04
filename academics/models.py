@@ -54,11 +54,11 @@ class AcademicTerm(models.Model):
 
 class StudentClass(models.Model):
     name = models.CharField(max_length=200, unique=True)
-    sections = models.ManyToManyField("ClassSection")
+    sections = models.ManyToManyField("ClassSection",help_text="Select Custom if class ha no sections")
 
     class Meta:
         verbose_name = "Class"
-        verbose_name_plural = "Classes"
+        verbose_name_plural = "Classes" 
         ordering = ["name"]
 
     def __str__(self):
