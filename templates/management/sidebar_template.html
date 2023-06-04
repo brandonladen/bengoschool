@@ -4,12 +4,11 @@
     <!-- Brand Logo -->
     <a href="/admin" class="brand-link">
         {% if school_logo.url %}
-         <img src="{{school_logo.url}}" alt="Logo"
+         <img src="{{school_logo.url}}" alt="Logo" width="150" />
         {% else %}
-        <img src="{% static 'school_logo/logo.png' %} " alt="AdminLTE Logo"
-            class="brand-image img-circle elevation-3" >
+        <img src="{% static 'school_logo/logo.png' %} " alt="AdminLTE Logo" class="brand-image img-circle elevation-3" width="150" />
             {% endif %}
-        <span class="brand-text font-weight-light">Admin Panel</span>
+        <span class="brand-text font-weight-light text-wrap d-flex">Admin Panel</span>
     </a>
 
     <!-- Sidebar -->
@@ -424,7 +423,6 @@
                                 <i class="nav-icon fas fa-check-double"></i>
                                 <p>
                                     Staff Leave
-
                                 </p>
                             </a>
                         </li>
@@ -436,13 +434,11 @@
                                 <i class="nav-icon fas fa-check-double"></i>
                                 <p>
                                     Student Leave
-
                                 </p>
                             </a>
                         </li>
                     </ul>
                 </li>
-
                 {% elif request.user.user_type == '2' %}
                 <!-- Brand Logo -->
                 <a href="#" class="brand-link">
@@ -450,7 +446,6 @@
                         class="brand-image img-circle elevation-3" style="opacity: .8">
                     <span class="brand-text font-weight-light">Staff Panel</span>
                 </a>
-
                 <!-- Sidebar -->
                 <div class="sidebar">
                     <!-- Sidebar user panel (optional) -->
@@ -462,7 +457,6 @@
                             <a href="#" class="d-block">{{ user}}</a>
                         </div>
                     </div>
-
                     <!-- Sidebar Menu -->
                     <nav class="mt-2">
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
@@ -475,7 +469,6 @@
                                     <i class="nav-icon fas fa-home"></i>
                                     <p>
                                         Home
-
                                     </p>
                                 </a>
                             </li>
@@ -487,7 +480,6 @@
                                     <i class="nav-icon fas fa-address-card"></i>
                                     <p>
                                         Update Profile
-
                                     </p>
                                 </a>
                             </li>
