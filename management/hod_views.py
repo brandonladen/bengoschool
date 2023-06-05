@@ -103,6 +103,7 @@ def add_staff(request):
             password = form.cleaned_data.get('password')
             subjects = form.cleaned_data.get('subject')
             passport = request.FILES.get('profile_pic')
+            role_number=form.cleaned_data.get('role_number')
             fs = FileSystemStorage()
             filename = fs.save(passport.name, passport)
             passport_url = fs.url(filename)
@@ -113,6 +114,7 @@ def add_staff(request):
                 user.address = address
                 for sub in subjects:
                     user.staff.subject.add(sub)
+                user.staff.role_number=role_number
                 user.save()
                 messages.success(request, "Successfully Added")
                 return redirect(reverse('add_staff'))
@@ -267,6 +269,7 @@ def edit_staff(request, staff_id):
             password = form.cleaned_data.get('password') or None
             subjects = form.cleaned_data.get('subject')
             passport = request.FILES.get('profile_pic') or None
+            role_number = request.FILES.get('role_number') or None
             try:
                 user = CustomUser.objects.get(id=staff.admin.id)
                 user.username = username
@@ -284,6 +287,7 @@ def edit_staff(request, staff_id):
                 user.address = address
                 for sub in subjects:
                     staff.subject.add(sub)
+                staff.role_number=role_number
                 user.save()
                 staff.save()
                 messages.success(request, "Successfully Updated")

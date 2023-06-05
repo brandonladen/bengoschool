@@ -11,6 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 from authman.forms import *
 from .models import *
 from management.models import *
+from management.forms import *
 from leave.models import *
 
 def staff_home(request):

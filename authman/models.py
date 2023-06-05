@@ -79,7 +79,6 @@ class Staff(models.Model):
     mobile_number = models.CharField(
         validators=[mobile_num_regex], max_length=13, blank=True
     )
-    address = models.TextField(blank=True)
     others = models.TextField(blank=True)
 
     def __str__(self):
